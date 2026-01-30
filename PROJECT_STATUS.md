@@ -229,6 +229,7 @@
 ### 根目录
 ```
 AGENTS.md               ✅ Agent 协作指南 (1500+ 行)
+LEARNING_PATH.md        ✅ 学习路径指南 (结构化学习入口)
 README.md               ✅ 项目简介
 LICENSE                 ✅ MIT 许可证
 setup.py                ✅ 包安装配置
