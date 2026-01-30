@@ -1,20 +1,451 @@
+"""配置类定义
+
+这个模块定义了模型架构和训练过程的所有配置参数。
+使用 dataclass 使得配置清晰、易于修改和传递。
+
+教学要点:
+1. 理解模型架构的关键超参数
+2. 理解训练过程的关键超参数
+3. 了解参数之间的相互关系和约束
+"""
+
 from dataclasses import dataclass
+
 
 @dataclass
 class ModelConfig:
-    dim: int = 256          # Transformer 维度 (d_model)
-    n_layers: int = 4       # Transformer 层数 (Block 数量)
-    n_heads: int = 8        # 注意力头数
-    n_kv_heads: int = 4     # KV 头数 (用于分组查询注意力 GQA，可选，可以与 n_heads 相同)
-    vocab_size: int = 8192  # SentencePiece 词表大小 (增加以覆盖所有字符)
-    max_seq_len: int = 256  # 上下文窗口大小
+    """模型架构配置
+
+    定义 Transformer 模型的所有架构参数。
+    这些参数共同决定了模型的规模、能力和计算成本。
+
+    教学要点:
+    - 理解每个参数如何影响模型容量和性能
+    - 理解参数之间的约束关系
+    - 学会根据资源调整模型大小
+    """
+
+    # ============= 核心维度参数 =============
+
+    dim: int = 256
+    """Transformer 主维度 (也称为 d_model 或 hidden_size)
+
+    这是模型中最重要的维度参数,决定了:
+    - 每个 token 的向量表示维度
+    - 每一层中间隐藏状态的维度
+    - 模型的表达能力和参数量
+
+    典型值:
+    - 小型模型: 128-512
+    - 中型模型: 512-1024
+    - 大型模型: 1024-4096
+    - GPT-3: 12288
+
+    注意: dim 必须能被 n_heads 整除
+    """
+
+    n_layers: int = 4
+    """Transformer 层数 (深度)
+
+    模型中堆叠的 Transformer Block 数量。
+    更多的层意味着:
+    - 更强的建模能力
+    - 更多的参数
+    - 更长的训练时间
+    - 可能需要更大的学习率 warmup
+
+    典型值:
+    - 小型模型: 4-8 层
+    - 中型模型: 8-24 层
+    - 大型模型: 24-96 层
+    - GPT-3: 96 层
+    """
+
+    # ============= 注意力机制参数 =============
+
+    n_heads: int = 8
+    """Query 注意力头数 (Multi-Head Attention 中的头数)
+
+    多头注意力允许模型同时关注不同位置的不同特征。
+
+    约束条件:
+    - dim 必须能被 n_heads 整除
+    - 每个头的维度 = dim / n_heads
+
+    典型配置:
+    - 每个头的维度通常为 64 或 128
+    - dim=256, n_heads=8  → head_dim=32
+    - dim=512, n_heads=8  → head_dim=64
+    - dim=768, n_heads=12 → head_dim=64 (BERT)
+
+    注意: n_heads 应该是 n_kv_heads 的整数倍
+    """
+
+    n_kv_heads: int = 4
+    """Key-Value 注意力头数 (用于 Grouped Query Attention)
+
+    GQA (Grouped Query Attention) 是一种优化技术:
+    - 多个 Query 头共享同一个 Key-Value 头
+    - 大幅减少 KV cache 的内存占用
+    - 对性能影响很小
+
+    配置说明:
+    - 如果 n_kv_heads == n_heads: 标准的多头注意力 (MHA)
+    - 如果 n_kv_heads < n_heads: 分组查询注意力 (GQA)
+    - 如果 n_kv_heads == 1: 多查询注意力 (MQA)
+
+    示例:
+    - n_heads=8, n_kv_heads=8: 每个 Q 头有自己的 KV 头 (MHA)
+    - n_heads=8, n_kv_heads=4: 每 2 个 Q 头共享 1 个 KV 头 (GQA)
+    - n_heads=8, n_kv_heads=1: 所有 Q 头共享 1 个 KV 头 (MQA)
+
+    推荐: n_kv_heads = n_heads // 2 在大多数情况下效果很好
+    """
+
+    # ============= 词表和序列长度 =============
+
+    vocab_size: int = 8192
+    """词表大小
+
+    分词器中 token 的总数量,决定了:
+    - Embedding 层和输出层的参数量 (两者共享权重)
+    - 参数量 = vocab_size × dim × 2 (输入和输出)
+
+    典型值:
+    - 小词表: 4096-8192 (小数据集、特定领域)
+    - 中等词表: 30000-50000 (通用文本)
+    - 大词表: 50000-100000 (多语言)
+    - GPT 系列: 50257 (GPT-2), 100000+ (GPT-3)
+
+    注意:
+    - 词表越大,模型对罕见词的表示越好
+    - 但也会显著增加参数量和计算成本
+    - 需要与分词器训练时的词表大小匹配
+    """
+
+    max_seq_len: int = 256
+    """最大序列长度 (上下文窗口大小)
+
+    模型能够处理的最长 token 序列长度。
+
+    影响:
+    - 决定了 RoPE 位置编码的预计算长度
+    - 影响 KV cache 的内存占用
+    - 影响单个 batch 的内存需求
+
+    典型值:
+    - 短文本: 128-512 (对话、短文档)
+    - 中等长度: 512-2048 (文章、长对话)
+    - 长文本: 2048-8192 (长文档、书籍章节)
+    - 超长上下文: 8192+ (需要特殊优化)
+
+    注意:
+    - Attention 的计算复杂度为 O(n²),序列越长计算量越大
+    - 训练时的序列长度可以小于 max_seq_len
+    - 推理时无法处理超过 max_seq_len 的输入
+    """
+
+    # ============= 正则化参数 =============
+
     dropout: float = 0.1
-    
+    """Dropout 比率
+
+    训练时随机丢弃部分神经元,防止过拟合。
+
+    应用位置:
+    - 注意力层的输出
+    - MLP 层之间
+    - Residual connection 之后
+
+    典型值:
+    - 小数据集: 0.1-0.3 (防止过拟合)
+    - 大数据集: 0.0-0.1 (数据本身就足够多样)
+    - 预训练大模型: 0.0-0.1
+
+    注意:
+    - 推理时 dropout 会被关闭 (model.eval())
+    - dropout 太高会影响模型容量
+    - dropout 太低可能导致过拟合
+    """
+
+    def __post_init__(self):
+        """验证配置参数的合法性
+
+        这个方法在 dataclass 实例化后自动调用,
+        用于检查参数之间的约束关系。
+        """
+        # 检查 dim 能否被 n_heads 整除
+        if self.dim % self.n_heads != 0:
+            raise ValueError(
+                f"dim ({self.dim}) 必须能被 n_heads ({self.n_heads}) 整除。"
+                f"每个头的维度 head_dim = dim / n_heads 必须是整数。"
+            )
+
+        # 检查 n_heads 能否被 n_kv_heads 整除
+        if self.n_heads % self.n_kv_heads != 0:
+            raise ValueError(
+                f"n_heads ({self.n_heads}) 必须能被 n_kv_heads ({self.n_kv_heads}) 整除。"
+                f"这样才能让多个 Q 头平均共享 KV 头。"
+            )
+
+        # 计算并打印一些有用的派生信息
+        head_dim = self.dim // self.n_heads
+        group_size = self.n_heads // self.n_kv_heads
+
+        # 估算参数量 (简化计算,不包括 LayerNorm 等小参数)
+        params_per_layer = (
+            # Attention: Q, K, V, O 投影
+            self.dim * (self.n_heads * head_dim) +  # Q
+            self.dim * (self.n_kv_heads * head_dim) +  # K
+            self.dim * (self.n_kv_heads * head_dim) +  # V
+            (self.n_heads * head_dim) * self.dim +  # O
+            # MLP: w1, w2, w3 (SwiGLU)
+            self.dim * (4 * self.dim * 2 // 3) * 3
+        )
+        total_params = (
+            self.vocab_size * self.dim * 2 +  # Embedding + Output
+            params_per_layer * self.n_layers
+        )
+
+        print(f"模型配置信息:")
+        print(f"  - 每个头的维度: {head_dim}")
+        print(f"  - GQA 分组大小: {group_size} (每 {group_size} 个 Q 头共享 1 个 KV 头)")
+        print(f"  - 估算参数量: {total_params / 1e6:.2f}M")
+
+
 @dataclass
 class TrainConfig:
+    """训练配置
+
+    定义训练过程的所有超参数。
+    这些参数决定了训练的速度、稳定性和最终效果。
+
+    教学要点:
+    - 理解每个超参数如何影响训练过程
+    - 学会根据模型大小和数据调整超参数
+    - 理解训练稳定性和收敛速度的权衡
+    """
+
+    # ============= 基础训练参数 =============
+
     batch_size: int = 32
+    """批次大小 (每次更新参数使用的样本数)
+
+    batch_size 是训练中最重要的超参数之一:
+
+    影响:
+    - 更大的 batch: 训练更稳定,但收敛可能更慢
+    - 更小的 batch: 训练更快,但可能不稳定
+    - 内存占用与 batch_size 成正比
+
+    典型值:
+    - GPU 内存有限: 8-32
+    - 中等 GPU: 32-64
+    - 大型 GPU/TPU: 64-256
+    - 超大规模训练: 256-2048 (使用梯度累积)
+
+    调整建议:
+    - 根据 GPU 内存调整到最大可用值
+    - 如果内存不够,减小 batch_size 或使用梯度累积
+    - 如果改变 batch_size,可能需要相应调整学习率
+      (经验法则: 学习率 ∝ √batch_size)
+    """
+
     learning_rate: float = 3e-4
-    max_iters: int = 1000    # 最大迭代次数 (为了演示设为 100，实际训练建议 5000+)
-    eval_interval: int = 50 # 每隔多少步评估一次
-    eval_iters: int = 20    # 每次评估使用多少个 batch
-    device: str = 'cpu'     # 将在代码中自动检测
+    """学习率 (控制参数更新的步长)
+
+    学习率是训练中最关键的超参数:
+
+    影响:
+    - 太大: 训练不稳定,损失震荡甚至发散
+    - 太小: 收敛太慢,可能陷入局部最优
+    - 需要根据模型大小和数据量调整
+
+    典型值:
+    - 小模型: 1e-3 到 3e-4
+    - 中型模型: 3e-4 到 1e-4
+    - 大模型: 1e-4 到 3e-5
+    - GPT-3 (175B): 6e-5
+
+    学习率策略:
+    - Warmup: 从小值线性增长到目标学习率 (前几百步)
+    - Cosine decay: 余弦退火,逐渐降低学习率
+    - Constant: 保持不变 (简单但不一定最优)
+
+    调整建议:
+    - 如果损失震荡或 NaN: 降低学习率
+    - 如果收敛太慢: 提高学习率 (小心)
+    - 对于大模型,使用 warmup 可以提高稳定性
+    """
+
+    # ============= 训练流程参数 =============
+
+    max_iters: int = 1000
+    """最大训练迭代次数 (总共训练多少个 batch)
+
+    决定训练的总时长:
+    - 1 个 iteration = 1 个 batch 的前向+反向传播
+    - 总训练样本数 = max_iters × batch_size
+
+    典型值:
+    - 快速实验: 100-1000
+    - 小规模训练: 1000-10000
+    - 中等规模训练: 10000-100000
+    - 大规模预训练: 100000-1000000+
+
+    注意:
+    - 这里设为 1000 是为了快速演示
+    - 实际训练建议至少 5000 步
+    - 可以通过验证损失判断是否需要更多迭代
+    """
+
+    eval_interval: int = 50
+    """评估间隔 (每隔多少步在验证集上评估一次)
+
+    定期评估可以:
+    - 监控模型在验证集上的表现
+    - 及早发现过拟合
+    - 保存最佳模型检查点
+
+    典型值:
+    - 快速迭代: 每 10-50 步
+    - 一般训练: 每 50-200 步
+    - 长时间训练: 每 200-1000 步
+
+    权衡:
+    - 评估太频繁: 浪费时间,训练变慢
+    - 评估太少: 可能错过最佳模型
+    """
+
+    eval_iters: int = 20
+    """每次评估使用的批次数
+
+    评估时使用多个 batch 以获得更稳定的估计:
+    - 评估样本数 = eval_iters × batch_size
+    - 更多的 batch 可以得到更准确的验证损失
+
+    典型值:
+    - 快速评估: 10-20
+    - 准确评估: 50-100
+    - 完整验证集: 使用所有验证数据
+
+    注意:
+    - eval_iters 越大,评估越准确但越慢
+    - 可以根据验证集大小调整
+    """
+
+    # ============= 设备配置 =============
+
+    device: str = 'cpu'
+    """训练设备 (cpu, cuda, mps 等)
+
+    指定模型和数据放置的设备:
+    - 'cpu': CPU 训练 (慢但兼容性好)
+    - 'cuda': NVIDIA GPU (最常用,速度快)
+    - 'cuda:0', 'cuda:1': 指定特定 GPU
+    - 'mps': Apple Silicon GPU (M1/M2 Mac)
+
+    注意:
+    - 通常在代码中自动检测可用设备
+    - GPU 训练比 CPU 快 10-100 倍
+    - 确保 PyTorch 安装了对应的 CUDA 版本
+    """
+
+    def __post_init__(self):
+        """验证训练配置的合法性"""
+        # 检查学习率范围
+        if self.learning_rate <= 0 or self.learning_rate > 1:
+            raise ValueError(
+                f"learning_rate ({self.learning_rate}) 应该在 (0, 1] 范围内。"
+                f"典型值: 1e-5 到 1e-3"
+            )
+
+        # 检查 batch_size
+        if self.batch_size <= 0:
+            raise ValueError(f"batch_size ({self.batch_size}) 必须是正整数")
+
+        # 打印训练信息
+        total_samples = self.max_iters * self.batch_size
+        print(f"\n训练配置信息:")
+        print(f"  - 总训练样本数: {total_samples:,} (约 {total_samples/1e6:.2f}M tokens)")
+        print(f"  - 每 {self.eval_interval} 步评估一次")
+        print(f"  - 使用设备: {self.device}")
+
+
+# ============= 预定义配置 =============
+
+def get_small_config():
+    """小型模型配置 (约 2M 参数)
+
+    适用于:
+    - 快速实验和原型验证
+    - 教学和学习
+    - 资源受限环境 (笔记本 CPU)
+    """
+    return ModelConfig(
+        dim=256,
+        n_layers=4,
+        n_heads=8,
+        n_kv_heads=4,
+        vocab_size=8192,
+        max_seq_len=256
+    )
+
+
+def get_medium_config():
+    """中型模型配置 (约 10M 参数)
+
+    适用于:
+    - 中等规模数据集训练
+    - GPU 训练 (4-8GB 显存)
+    - 更好的生成质量
+    """
+    return ModelConfig(
+        dim=512,
+        n_layers=8,
+        n_heads=8,
+        n_kv_heads=4,
+        vocab_size=16384,
+        max_seq_len=512
+    )
+
+
+def get_large_config():
+    """大型模型配置 (约 40M 参数)
+
+    适用于:
+    - 大规模数据集训练
+    - 高性能 GPU (16GB+ 显存)
+    - 生产级应用
+    """
+    return ModelConfig(
+        dim=768,
+        n_layers=12,
+        n_heads=12,
+        n_kv_heads=6,
+        vocab_size=32768,
+        max_seq_len=1024
+    )
+
+
+# 示例用法
+if __name__ == "__main__":
+    print("=" * 60)
+    print("小型模型配置:")
+    print("=" * 60)
+    small = get_small_config()
+
+    print("\n" + "=" * 60)
+    print("中型模型配置:")
+    print("=" * 60)
+    medium = get_medium_config()
+
+    print("\n" + "=" * 60)
+    print("大型模型配置:")
+    print("=" * 60)
+    large = get_large_config()
+
+    print("\n" + "=" * 60)
+    print("训练配置:")
+    print("=" * 60)
+    train = TrainConfig()
