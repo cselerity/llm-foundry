@@ -47,9 +47,9 @@ llm-foundry/
 │   ├── inference/            # 推理工具
 │   └── utils/                # 实用工具
 │
-├── simple/                   # 简单模式 - 教学用
-│   ├── train.py              # 单文件训练脚本
-│   ├── generate.py           # 单文件生成脚本
+├── tutorials/                # 教学展示 - 核心功能的完整展示
+│   ├── train.py              # 教学训练脚本
+│   ├── generate.py           # 教学生成脚本
 │   └── README.md             # 简单模式说明
 │
 ├── scripts/                  # 命令行工具
@@ -97,12 +97,13 @@ llm-foundry/
 
 ### 2.3 双模式设计
 
-**简单模式** (`simple/`):
+**教学展示** (`tutorials/`):
+- 主工程核心功能的完整展示
 - 单文件脚本,易于理解
 - 适合快速实验和教学
-- 保留向后兼容性
+- 功能与工程版本对等
 
-**包模式** (`src/llm_foundry/`):
+**工程实现** (`src/llm_foundry/`):
 - 模块化架构,生产就绪
 - 支持 `pip install`
 - 便于扩展和维护
@@ -583,7 +584,7 @@ if __name__ == '__main__':
 | 配置选项 | `src/llm_foundry/config/` | 查看 `model_config.py` |
 | 生成逻辑 | `src/llm_foundry/inference/` | 查看 `generator.py` |
 | 使用示例 | `examples/` | 浏览编号文件 |
-| 简单脚本 | `simple/` | 查看 `train.py` 和 `generate.py` |
+| 教学脚本 | `tutorials/` | 查看 `train.py` 和 `generate.py` |
 
 **使用 Grep 搜索**:
 
@@ -626,7 +627,7 @@ grep -r "TODO" src/
 ```
 依赖方向: 高层 → 低层
 
-应用层:      scripts/, simple/, examples/
+应用层:      scripts/, tutorials/, examples/
                 ↓
 高层 API:     training/, inference/
                 ↓

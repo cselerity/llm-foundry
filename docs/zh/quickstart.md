@@ -39,7 +39,7 @@ LLM Foundry 提供两种使用模式,适应不同的需求:
 适合: 学习、教学、快速实验
 
 ```bash
-cd simple
+cd tutorials
 python train.py      # 训练模型
 python generate.py   # 生成文本
 ```
@@ -52,16 +52,16 @@ python generate.py   # 生成文本
 from llm_foundry import ModelConfig, MiniLLM, DataLoader
 ```
 
-本指南主要介绍**简单模式**,包模式请参考 [API 参考](api-reference.md)。
+本指南主要介绍**教学模式**,包模式请参考 [API 参考](api-reference.md)。
 
 ---
 
-## 🎓 简单模式快速开始
+## 🎓 教学模式快速开始
 
 ### 步骤 1: 训练您的第一个模型
 
 ```bash
-cd simple
+cd tutorials
 python train.py
 ```
 
@@ -109,7 +109,7 @@ python generate.py
 
 ### 步骤 3: 自定义配置
 
-编辑 `simple/config.py`:
+编辑 `tutorials/config.py`:
 
 ```python
 @dataclass

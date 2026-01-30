@@ -44,7 +44,7 @@
 
 ### 初学者
 1. 阅读 [快速入门](zh/quickstart.md)
-2. 运行 `simple/train.py` 和 `simple/generate.py`
+2. 运行 `tutorials/train.py` 和 `tutorials/generate.py`
 3. 浏览 `examples/` 中的示例
 4. 阅读 [架构详解](zh/architecture.md)
 

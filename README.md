@@ -2,7 +2,7 @@
 
 > **实用的开源 LLM 基础 —— 从基础到生产**
 
-一个轻量级、模块化的 Transformer 语言模型实现,涵盖从基础概念到生产部署的完整旅程。
+一个教育与生产并重的 Transformer 语言模型实现,涵盖从基础学习到生产部署的完整场景。
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -16,7 +16,7 @@
 - 📦 **模块化设计**: 清晰的代码结构,易于理解和扩展
 - 🎓 **教育友好**: 详细的中文文档和注释
 - 🚀 **生产就绪**: 支持分布式训练、混合精度、模型服务
-- 🔧 **双模式**: 简单脚本(教学)+ 完整包(生产)
+- 🔧 **双轨并行**: 教学展示(tutorials)+ 工程实现(src),两者同等重要
 
 ## 🚀 快速开始
 
@@ -31,11 +31,11 @@ cd llm-foundry
 pip install -e .
 ```
 
-### 简单模式(快速体验)
+### 教学模式(快速体验)
 
 ```bash
-# 训练模型(使用简单脚本)
-cd simple
+# 训练模型(使用教学脚本)
+cd tutorials
 python train.py
 
 # 生成文本
@@ -90,7 +90,7 @@ llm-foundry/
 │   ├── training/         # 训练工具
 │   ├── inference/        # 推理工具
 │   └── utils/            # 工具函数
-├── simple/               # 简单脚本(教学)
+├── tutorials/            # 教学展示脚本
 ├── examples/             # 使用示例
 ├── docs/                 # 文档
 ├── tests/                # 测试
