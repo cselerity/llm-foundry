@@ -1,0 +1,29 @@
+# Base 配置 (默认)
+# 这是所有配置的基础,其他配置继承自此
+
+model:
+  dim: 256
+  n_layers: 4
+  n_heads: 8
+  n_kv_heads: 4
+  vocab_size: 8192
+  max_seq_len: 256
+  dropout: 0.1
+
+training:
+  batch_size: 32
+  learning_rate: 0.0003
+  max_iters: 1000
+  eval_interval: 50
+  eval_iters: 20
+  device: auto  # 自动检测 (cuda/mps/cpu)
+
+data:
+  file_path: input_cn.txt
+  split_ratio: 0.9  # 训练集比例
+
+generation:
+  temperature: 0.8
+  top_k: 50
+  top_p: null
+  max_new_tokens: 100

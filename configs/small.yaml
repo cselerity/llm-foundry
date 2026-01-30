@@ -1,0 +1,20 @@
+# Small 模型配置
+# 适合: 快速实验、学习、CPU 训练
+
+model:
+  dim: 256
+  n_layers: 4
+  n_heads: 8
+  n_kv_heads: 4
+  vocab_size: 8192
+  max_seq_len: 256
+  dropout: 0.1
+
+training:
+  batch_size: 32
+  learning_rate: 0.0003
+  max_iters: 1000
+  eval_interval: 50
+  eval_iters: 20
+
+# 预期参数量: ~2M

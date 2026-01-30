@@ -1,0 +1,20 @@
+# Medium 模型配置
+# 适合: 单 GPU 训练、中等规模实验
+
+model:
+  dim: 512
+  n_layers: 8
+  n_heads: 8
+  n_kv_heads: 4
+  vocab_size: 8192
+  max_seq_len: 512
+  dropout: 0.1
+
+training:
+  batch_size: 16
+  learning_rate: 0.0003
+  max_iters: 5000
+  eval_interval: 100
+  eval_iters: 50
+
+# 预期参数量: ~10M
