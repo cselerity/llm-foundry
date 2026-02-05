@@ -1,85 +1,158 @@
-# LLM Foundry 文档
+# LLM Foundry 文档中心
 
-欢迎来到 LLM Foundry 的文档中心!
+> **按用途和角色导航的完整文档索引**
 
-## 🎓 新手推荐
-
-**第一次学习?** 强烈推荐从这里开始:
-
-📖 **[学习路径指南 (LEARNING_PATH.md)](../LEARNING_PATH.md)**
-
-这个结构化的学习路径将带您从入门到精通,包含:
-- 5个学习阶段,循序渐进
-- 每个概念都有代码示例和实践任务
-- 完整的学习检查清单
-- 预计10-15小时完成(含实践)
+欢迎来到 LLM Foundry 文档中心。本页面帮助您快速找到所需的文档。
 
 ---
 
-## 📚 文档导航
+## 🎯 我想...
 
-### 中文文档 (docs/zh/)
+### 快速开始 (5-10 分钟)
 
-#### 入门指南
-- **[快速入门](zh/quickstart.md)** - 安装和第一个模型
-- **[架构详解](zh/architecture.md)** - 模型架构深度解析
-- **[配置系统](zh/configuration.md)** - 配置选项和自定义
+**→ [快速开始指南](../GETTING_STARTED.md)**
+   - 安装环境
+   - 训练第一个模型
+   - 生成文本
+   - 故障排除
 
-#### 使用指南
-- **[训练指南](zh/training.md)** - 训练流程和超参数调优
-- **[推理指南](zh/inference.md)** - 文本生成和采样策略
-- **[数据准备](zh/data-preparation.md)** - 数据集准备和分词
+---
 
-#### 生产部署
-- **[分布式训练](zh/production/distributed-training.md)** - 多 GPU DDP 训练
-- **[混合精度训练](zh/production/mixed-precision.md)** - FP16/BF16 训练
-- **[模型服务](zh/production/model-serving.md)** - 部署和 API 服务
-- **[推理优化](zh/production/optimization.md)** - 量化和加速
+### 系统学习 (10-15 小时)
 
-#### 参考文档
-- **[API 参考](zh/api-reference.md)** - 完整的 API 文档
+**→ [学习路径 (LEARNING_PATH.md)](../LEARNING_PATH.md)**
+   - 🎯 第 1 阶段: 快速入门 (30 分钟)
+   - 🔧 第 2 阶段: 核心概念 (2-3 小时)
+   - 🧠 第 3 阶段: 深入理解 (3-4 小时)
+   - 🚀 第 4 阶段: 优化与扩展 (3-4 小时)
+   - 💼 第 5 阶段: 生产部署 (2-3 小时)
 
-## 🎯 快速链接
+---
+
+### 理解架构
+
+**→ [架构文档](zh/architecture/)**
+
+**深入学习顺序:**
+1. [**核心组件**](zh/architecture/components.md) - RMSNorm, RoPE, GQA, SwiGLU
+2. [**训练系统**](zh/architecture/training-system.md) - LLM 训练完整知识
+3. **设计决策** - 技术选型理由 (待创建)
+
+---
+
+### 在我的硬件上训练
+
+**→ [硬件指南](zh/hardware/)**
+
+| 硬件类型 | 指南 | 模型规模 | 训练时间* |
+|---------|------|---------|----------|
+| RTX 5060 (8GB) | [RTX 5060 指南](zh/hardware/rtx-5060.md) | 70M | 30-40min |
+| Apple M4 Pro | Apple Silicon 指南 (待创建) | 68M | 40-60min |
+| 高端 GPU | [硬件概览](zh/hardware/README.md) | 200M+ | 10-20min |
+
+*基于 10k training steps
+
+**→ [配置速查表](zh/hardware/quick-reference.md)** - 快速参考
+
+---
+
+### 使用自己的数据
+
+**→ 自定义数据指南** (待创建)
+
+**临时参考 - [GETTING_STARTED.md](../GETTING_STARTED.md#使用自己的数据)**
+
+---
+
+### 部署到生产
+
+**→ [生产部署指南](zh/production/)**
+
+- [**分布式训练**](zh/production/distributed-training.md) - 多 GPU 训练
+- [**混合精度**](zh/production/mixed-precision.md) - FP16/BF16 加速
+- [**模型服务**](zh/production/model-serving.md) - API 部署
+- [**推理优化**](zh/production/optimization.md) - 量化和加速
+
+---
+
+### 贡献代码
+
+**→ [开发者指南 (AGENTS.md)](../AGENTS.md)**
+   - AI Agent 协作指南
+   - 开发工作流
+   - 代码规范
+
+---
+
+## 📚 按文档类型浏览
+
+### 指南 (实用操作)
+
+- [**快速开始**](../GETTING_STARTED.md) - 5-10 分钟上手 ✅
+- [快速入门](zh/quickstart.md) - 原版快速入门 (已被 GETTING_STARTED.md 替代)
+
+---
+
+### 架构 (技术深入)
+
+- [**核心组件**](zh/architecture/components.md) - RMSNorm, RoPE, GQA, SwiGLU ✅
+- [**训练系统**](zh/architecture/training-system.md) - 完整训练知识 ✅
+- 设计决策 - 技术选型 (待创建)
+
+---
+
+### 硬件 (平台特定)
+
+- [**硬件概览**](zh/hardware/README.md) - 选择指南 ✅
+- [**RTX 5060**](zh/hardware/rtx-5060.md) - 8GB NVIDIA GPU ✅
+- [**配置速查表**](zh/hardware/quick-reference.md) - 快速参考 ✅
+
+---
+
+### 生产 (部署)
+
+- [**分布式训练**](zh/production/distributed-training.md) - DDP, FSDP
+- [**混合精度**](zh/production/mixed-precision.md) - FP16/BF16
+- [**模型服务**](zh/production/model-serving.md) - FastAPI 部署
+- [**推理优化**](zh/production/optimization.md) - 量化、KV Cache
+
+---
+
+## 📖 按角色学习路径
+
+### 🎓 初学者
+
+**推荐路径:**
+1. [快速开始](../GETTING_STARTED.md) (5-10 分钟)
+2. [学习路径 第 1-2 阶段](../LEARNING_PATH.md) (2-3 小时)
+3. [核心组件](zh/architecture/components.md) (1-2 小时)
+
+---
+
+### 💻 实践者
+
+**推荐路径:**
+1. [快速开始](../GETTING_STARTED.md) (10 分钟)
+2. [硬件指南](zh/hardware/) - 选择配置 (15 分钟)
+3. [配置速查表](zh/hardware/quick-reference.md) (5 分钟)
+
+---
+
+### 🔬 研究者 / 开发者
+
+**推荐路径:**
+1. [完整学习路径](../LEARNING_PATH.md) (10-15 小时)
+2. [架构文档](zh/architecture/) - 完整阅读
+3. [开发者指南](../AGENTS.md) (1 小时)
+
+---
+
+## 🔗 快速链接
 
 - [GitHub 仓库](https://github.com/your-org/llm-foundry)
-- [问题反馈](https://github.com/your-org/llm-foundry/issues)
-- [贡献指南](../CONTRIBUTING.md)
-- [Agent 协作指南](../AGENTS.md)
+- [Issue 追踪](https://github.com/your-org/llm-foundry/issues)
+- [讨论区](https://github.com/your-org/llm-foundry/discussions)
 
-## 🌟 特性亮点
+---
 
-- ✅ 现代 Transformer 架构(RoPE, GQA, SwiGLU, RMSNorm)
-- ✅ 清晰的模块化设计
-- ✅ 完整的训练和推理流程
-- ✅ 教育和生产两种使用模式
-- ✅ 详细的中文文档
-
-## 📖 学习路径
-
-### 初学者
-1. 阅读 [快速入门](zh/quickstart.md)
-2. 运行 `tutorials/train.py` 和 `tutorials/generate.py`
-3. 浏览 `examples/` 中的示例
-4. 阅读 [架构详解](zh/architecture.md)
-
-### 进阶用户
-1. 学习 [训练指南](zh/training.md) 和 [推理指南](zh/inference.md)
-2. 探索 [数据准备](zh/data-preparation.md)
-3. 自定义模型配置
-4. 贡献代码和文档
-
-### 生产部署
-1. 阅读生产部署系列文档
-2. 实践分布式训练
-3. 优化推理性能
-4. 部署模型服务
-
-## 💬 社区
-
-- **讨论**: GitHub Discussions
-- **问题**: GitHub Issues
-- **贡献**: Pull Requests
-
-## 📄 许可证
-
-本项目采用 MIT 许可证 - 查看 [LICENSE](../LICENSE) 文件了解详情。
+**找到您需要的文档了吗？** 如果没有，请 [告诉我们](https://github.com/your-org/llm-foundry/issues) 📝

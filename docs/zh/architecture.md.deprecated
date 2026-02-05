@@ -1,0 +1,38 @@
+# ⚠️ 此文件已弃用
+
+此文档已被拆分为更模块化的架构文档。
+
+## 📍 新位置
+
+此文件的内容已拆分到以下文档:
+
+### 核心组件详解
+**[docs/zh/architecture/components.md](architecture/components.md)**
+- RMSNorm (Root Mean Square Normalization)
+- RoPE (Rotary Position Embedding)
+- Grouped Query Attention (GQA)
+- Scaled Dot-Product Attention
+- MLP with SwiGLU
+- Transformer Block
+
+### 完整训练知识
+**[docs/zh/architecture/training-system.md](architecture/training-system.md)**
+- 训练全流程 (6 阶段)
+- 核心技术详解
+- 业界最佳实践
+- 训练优化技巧
+
+### 架构概览
+**[docs/zh/architecture/](architecture/)** - 架构文档目录
+
+---
+
+## 🎯 推荐阅读
+
+1. 从 [核心组件](architecture/components.md) 开始理解每个技术细节
+2. 阅读 [训练系统](architecture/training-system.md) 了解完整训练流程
+3. 查看 [架构目录](architecture/) 获取更多资源
+
+---
+
+**此文件将在未来版本中删除。**
