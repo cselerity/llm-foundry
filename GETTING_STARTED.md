@@ -267,10 +267,10 @@ model_cfg = get_rtx5060_config()    # ~70M 参数
    - 10-15 小时完整课程
    - 从基础到高级
 
-→ **[架构详解 (docs/zh/architecture/)](docs/zh/architecture/)**
-   - [核心组件](docs/zh/architecture/components.md) - RMSNorm, RoPE, GQA
-   - [训练系统](docs/zh/architecture/training-system.md) - 完整训练知识
-   - [设计决策](docs/zh/architecture/design-decisions.md) - 技术选型
+→ **[架构详解](docs/)**
+   - [核心组件](docs/architecture-components.md) - RMSNorm, RoPE, GQA
+   - [训练系统](docs/architecture-training.md) - 完整训练知识
+   - [设计决策](docs/architecture-design.md) - 技术选型
 
 ---
 
@@ -278,18 +278,18 @@ model_cfg = get_rtx5060_config()    # ~70M 参数
 
 需要在特定硬件上优化？
 
-→ **[硬件指南 (docs/zh/hardware/)](docs/zh/hardware/)**
-   - [RTX 5060 指南](docs/zh/hardware/rtx-5060.md) - 8GB GPU 优化
-   - [Apple Silicon 指南](docs/zh/hardware/apple-silicon.md) - M4 Pro 优化
-   - [配置速查表](docs/zh/hardware/quick-reference.md) - 快速参考
+→ **[硬件指南](docs/)**
+   - [RTX 5060 指南](docs/hardware-rtx5060.md) - 8GB GPU 优化
+   - [Apple Silicon 指南](docs/hardware-apple.md) - M4 Pro 优化
+   - [配置速查表](docs/hardware-config.md) - 快速参考
 
 **硬件选择参考:**
 
 | 硬件 | 模型规模 | 训练时间* | 指南 |
 |------|---------|----------|------|
 | CPU | 2M | 10-30min | 使用 small 配置 |
-| RTX 5060 (8GB) | 70M | 30-40min | [RTX 5060 指南](docs/zh/hardware/rtx-5060.md) |
-| Apple M4 Pro | 68M | 40-60min | [Apple Silicon 指南](docs/zh/hardware/apple-silicon.md) |
+| RTX 5060 (8GB) | 70M | 30-40min | [RTX 5060 指南](docs/hardware-rtx5060.md) |
+| Apple M4 Pro | 68M | 40-60min | [Apple Silicon 指南](docs/hardware-apple.md) |
 | RTX 4090 (24GB) | 200M+ | 10-20min | 自定义配置 |
 
 *基于 10k training steps
@@ -300,7 +300,7 @@ model_cfg = get_rtx5060_config()    # ~70M 参数
 
 需要在自定义数据上训练？
 
-→ **[自定义数据指南](docs/zh/guides/custom-data.md)** (待创建)
+→ **[自定义数据指南](docs/guides-data.md)** (待创建)
 
 **快速步骤:**
 
@@ -329,11 +329,11 @@ loader = DataLoader(
 
 准备部署到生产环境？
 
-→ **[生产指南 (docs/zh/production/)](docs/zh/production/)**
-   - [分布式训练](docs/zh/production/distributed-training.md) - 多 GPU 训练
-   - [混合精度](docs/zh/production/mixed-precision.md) - FP16/BF16 加速
-   - [模型服务](docs/zh/production/model-serving.md) - API 部署
-   - [推理优化](docs/zh/production/optimization.md) - 量化和加速
+→ **[生产部署](docs/)**
+   - [分布式训练](docs/production-distributed.md) - 多 GPU 训练
+   - [混合精度](docs/production-mixed.md) - FP16/BF16 加速
+   - [模型服务](docs/production-serving.md) - API 部署
+   - [推理优化](docs/production-optimize.md) - 量化和加速
 
 ---
 
@@ -352,7 +352,7 @@ loader = DataLoader(
    ```
 2. **减小模型**: 降低 `dim` 或 `n_layers`
 3. **减小批次**: 降低 `batch_size`
-4. **使用混合精度**: 参考 [混合精度训练](docs/zh/production/mixed-precision.md)
+4. **使用混合精度**: 参考 [混合精度训练](docs/production-mixed.md)
 
 ---
 
@@ -444,9 +444,9 @@ python -c "import llm_foundry; print('OK')"
 **如果您想...**
 
 - **深入学习** → [LEARNING_PATH.md](LEARNING_PATH.md) (第 1 阶段)
-- **理解架构** → [docs/zh/architecture/components.md](docs/zh/architecture/components.md)
-- **优化硬件** → [docs/zh/hardware/](docs/zh/hardware/)
-- **生产部署** → [docs/zh/production/](docs/zh/production/)
+- **理解架构** → [架构组件](docs/architecture-components.md)
+- **优化硬件** → [硬件配置](docs/)
+- **生产部署** → [生产部署](docs/)
 
 ---
 

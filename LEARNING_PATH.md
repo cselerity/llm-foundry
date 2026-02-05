@@ -31,7 +31,7 @@
 - 查看项目结构
 
 #### 2. 环境准备
-📖 **阅读**: [docs/zh/quickstart.md](docs/zh/quickstart.md) - 安装部分
+📖 **阅读**: [GETTING_STARTED.md](GETTING_STARTED.md) - 安装部分
 - 克隆仓库
 - 安装依赖
 - 验证环境
@@ -152,7 +152,7 @@ print(f"参数量: {model.get_num_params() / 1e6:.2f}M")
 **目标**: 掌握核心原理和设计决策
 
 #### 9. 架构深度解析
-📖 **阅读**: [docs/zh/architecture.md](docs/zh/architecture.md)
+📖 **阅读**: [docs/architecture-components.md](docs/architecture-components.md)
 
 **阅读重点**:
 - 完整架构图解
@@ -209,7 +209,7 @@ pytest tests/ --cov=src/llm_foundry --cov-report=html
 **目标**: 能够自定义和扩展
 
 #### 13. 自定义数据集
-📖 **阅读**: [docs/zh/data-preparation.md](docs/zh/data-preparation.md)
+📖 **阅读**: [tutorials/dataloader.py](tutorials/dataloader.py)
 🎯 **实践**: [examples/02_custom_data.py](examples/02_custom_data.py)
 
 **任务**:
@@ -238,7 +238,7 @@ medium_cfg = ModelConfig(
 - 生成质量的提升
 
 #### 15. 超参数调优
-📖 **阅读**: [docs/zh/training.md](docs/zh/training.md)
+📖 **阅读**: [tutorials/train.py](tutorials/train.py)
 
 **实验**:
 - 调整学习率
@@ -261,7 +261,7 @@ medium_cfg = ModelConfig(
 **目标**: 掌握生产级别的技能
 
 #### 17. 使用包模式开发
-📖 **阅读**: [docs/zh/api-reference.md](docs/zh/api-reference.md)
+📖 **阅读**: [docs/README.md](docs/README.md)
 
 **实践**:
 ```python
@@ -292,12 +292,12 @@ python scripts/generate.py \
 ```
 
 #### 19. 生产部署 (高级)
-📖 **阅读**: [docs/zh/production/](docs/zh/production/) 系列文档
+📖 **阅读**: [docs/](docs/) 系列文档
 
-- [分布式训练](docs/zh/production/distributed-training.md)
-- [混合精度训练](docs/zh/production/mixed-precision.md)
-- [模型服务](docs/zh/production/model-serving.md)
-- [推理优化](docs/zh/production/optimization.md)
+- [分布式训练](docs/distributed-training.md)
+- [混合精度训练](docs/mixed-precision.md)
+- [模型服务](docs/model-serving.md)
+- [推理优化](docs/optimization.md)
 
 ---
 

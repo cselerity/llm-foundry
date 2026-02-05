@@ -90,7 +90,7 @@
   - 学习路径指南
   - 快速链接
 
-#### 中文文档 (docs/zh/)
+#### 中文文档 ()
 - ✅ **quickstart.md** - 详细的快速入门指南
   - 安装说明
   - 简单模式和包模式教程
@@ -200,7 +200,7 @@
 - 面向 AI Agent 的协作指南
 - 涵盖从开发到生产的全流程
 
-**用户文档** (docs/zh/)
+**用户文档** ()
 - 快速入门指南
 - 深度架构解析
 - 完整的使用教程
@@ -334,7 +334,7 @@ python examples/01_basic_training.py
 ## 📈 后续计划
 
 ### 短期 (1-2 周)
-- [ ] 完善 docs/zh/ 剩余文档
+- [ ] 完善  剩余文档
   - training.md
   - inference.md
   - data-preparation.md
@@ -375,8 +375,8 @@ python examples/01_basic_training.py
 ### 学习路径
 1. 阅读 [README.md](README.md) 了解项目
 2. 查看 [tutorials/README.md](tutorials/README.md) 快速体验
-3. 阅读 [docs/zh/quickstart.md](docs/zh/quickstart.md) 深入学习
-4. 查看 [docs/zh/architecture.md](docs/zh/architecture.md) 理解原理
+3. 阅读 [GETTING_STARTED.md](GETTING_STARTED.md) 深入学习
+4. 查看 [docs/architecture-components.md](docs/architecture-components.md) 理解原理
 5. 运行 [examples/](examples/) 中的示例
 6. 阅读 [AGENTS.md](AGENTS.md) 开始贡献
 

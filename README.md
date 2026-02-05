@@ -39,19 +39,17 @@ LLM Foundry 是一个**教育优先、生产就绪**的语言模型实现，采�
 
 ### 实践者
 
-**针对您的硬件优化** → [硬件指南](docs/zh/hardware/)
-   - [RTX 5060 指南](docs/zh/hardware/rtx-5060.md) - 8GB GPU (70M 参数, 30-40 分钟)
-   - [Apple Silicon 指南](docs/zh/hardware/apple-silicon.md) - M4 Pro 优化
-   - [配置速查表](docs/zh/hardware/quick-reference.md) - 快速参考
+**针对您的硬件优化** → [硬件配置](docs/)
+   - [RTX 5060 指南](docs/hardware-rtx5060.md) - 8GB GPU (70M 参数, 30-40 分钟)
+   - [配置速查表](docs/hardware-config.md) - 快速参考
 
 ---
 
 ### 开发者 / 研究者
 
-**深入架构** → [架构文档](docs/zh/architecture/)
-   - [核心组件](docs/zh/architecture/components.md) - RMSNorm, RoPE, GQA, SwiGLU
-   - [训练系统](docs/zh/architecture/training-system.md) - LLM 训练完整知识
-   - [设计决策](docs/zh/architecture/design-decisions.md) - 技术选型理由
+**深入架构** → [架构文档](docs/)
+   - [核心组件](docs/architecture-components.md) - RMSNorm, RoPE, GQA, SwiGLU
+   - [训练系统](docs/architecture-training.md) - LLM 训练完整知识
 
 **贡献代码** → [AGENTS.md](AGENTS.md)
    - AI Agent 协作指南
@@ -90,10 +88,76 @@ python generate.py   # 生成文本
 **核心文档**:
 - [📖 快速开始](GETTING_STARTED.md) - 5-10 分钟上手
 - [🎯 学习路径](LEARNING_PATH.md) - 系统学习指南
-- [🏗️ 架构详解](docs/zh/architecture/) - 深入理解
-- [💻 硬件指南](docs/zh/hardware/) - 平台优化
-- [🚀 生产部署](docs/zh/production/) - 企业级部署
+- [🏗️ 架构详解](docs/) - 深入理解
+- [💻 硬件配置](docs/) - 平台优化
 - [🤖 AI Agent](AGENTS.md) - 开发协作
+
+---
+
+## 📖 文档阅读顺序
+
+### 🎯 初学者路径 (首次接触 LLM)
+
+**总时间**: 3-5 小时
+
+1. **快速开始** (10 分钟)
+   - [GETTING_STARTED.md](GETTING_STARTED.md) - 安装并训练第一个模型
+
+2. **理解核心组件** (1-2 小时)
+   - [核心组件详解](docs/architecture-components.md) - RMSNorm, RoPE, GQA, SwiGLU
+
+3. **系统学习** (2-3 小时)
+   - [LEARNING_PATH.md](LEARNING_PATH.md) - 第 1-2 阶段
+
+---
+
+### 💻 实践者路径 (想快速训练模型)
+
+**总时间**: 30-60 分钟
+
+1. **快速开始** (10 分钟)
+   - [GETTING_STARTED.md](GETTING_STARTED.md)
+
+2. **选择硬件配置** (10 分钟)
+   - [RTX 5060 指南](docs/hardware-rtx5060.md)
+   - [配置速查表](docs/hardware-config.md)
+
+3. **开始训练** (10-40 分钟)
+   - 运行 `tutorials/train_rtx5060.py` 或 `train_m4pro.py`
+
+---
+
+### 🔬 研究者/开发者路径 (深入理解)
+
+**总时间**: 10-15 小时
+
+1. **快速开始** (10 分钟)
+   - [GETTING_STARTED.md](GETTING_STARTED.md)
+
+2. **深入架构** (3-5 小时)
+   - [核心组件详解](docs/architecture-components.md) - 2 小时
+   - [训练系统完整知识](docs/architecture-training.md) - 2-3 小时
+
+3. **系统学习** (5-7 小时)
+   - [LEARNING_PATH.md](LEARNING_PATH.md) - 完整 5 阶段
+
+4. **生产部署** (2-3 小时)
+   - 分布式训练 (待创建)
+   - 混合精度训练 (待创建)
+
+---
+
+### 🎓 架构深入阅读顺序
+
+如果您想专注理解架构，推荐按以下顺序阅读:
+
+1. **[核心组件](docs/architecture-components.md)** (1-2 小时)
+   - RMSNorm, RoPE, GQA, SwiGLU 的数学原理和实现
+
+2. **[训练系统](docs/architecture-training.md)** (2-3 小时)
+   - LLM 训练完整流程、业界最佳实践、优化技巧
+
+**快速了解** (~40 分钟): 只读 [核心组件](docs/architecture-components.md) 的 RMSNorm, RoPE, GQA 三节
 
 ---
 

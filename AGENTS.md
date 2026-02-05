@@ -330,7 +330,7 @@ def test_flash_attention():
     assert output.shape == x.shape
 ```
 
-5. **更新文档** (`docs/zh/architecture.md`):
+5. **更新文档** (`architecture.md`):
 
 添加 Flash Attention 的说明和使用示例。
 
@@ -380,7 +380,7 @@ def download_tinystories():
 ```
 
 3. **添加使用示例** (`examples/02_custom_data.py`)
-4. **更新文档** (`docs/zh/data-preparation.md`)
+4. **更新文档** (`data-preparation.md`)
 
 ### 5.4 添加新采样策略
 
@@ -391,7 +391,7 @@ def download_tinystories():
 1. **在 `inference/generator.py` 中实现**
 2. **添加参数到 `generate` 函数**
 3. **在 `examples/03_generation_sampling.py` 中添加示例**
-4. **更新文档** (`docs/zh/inference.md`)
+4. **更新文档** (`inference.md`)
 
 ---
 
@@ -480,7 +480,7 @@ pytest tests/ --cov=llm_foundry --cov-report=html
 
 **格式**: Google 风格(见 3.4 节)
 
-### 7.2 何时更新 docs/zh/
+### 7.2 何时更新 
 
 **必须更新**:
 - 添加新的公共 API
@@ -607,7 +607,7 @@ grep -r "TODO" src/
 **模式 1: 修改超参数**
 1. 更新 `config/model_config.py` 中的默认值
 2. 或在 `configs/*.yaml` 中添加新配置文件
-3. 更新文档 `docs/zh/configuration.md`
+3. 更新文档 `configuration.md`
 
 **模式 2: 优化现有组件**
 1. 修改 `models/components.py` 中的实现
@@ -755,7 +755,7 @@ def train_ddp(rank, world_size):
     # 训练代码...
 ```
 
-**使用指南**: 查看 `docs/zh/production/distributed-training.md`
+**使用指南**: 查看 `production/distributed-training.md`
 
 ### 9.4 模型服务
 
@@ -785,7 +785,7 @@ async def generate(request: GenerateRequest):
     return {"text": generated_text}
 ```
 
-**使用指南**: 查看 `docs/zh/production/model-serving.md`
+**使用指南**: 查看 `production/model-serving.md`
 
 ### 9.5 监控和日志
 
@@ -844,7 +844,7 @@ vim tests/test_models.py
 pytest tests/test_models.py -v
 
 # 5. 更新文档
-vim docs/zh/architecture.md
+vim architecture.md
 ```
 
 ### 10.2 实现新数据集
@@ -863,7 +863,7 @@ vim tests/test_data.py
 vim examples/05_new_dataset.py
 
 # 5. 更新文档
-vim docs/zh/data-preparation.md
+vim data-preparation.md
 ```
 
 ### 10.3 添加训练功能
@@ -879,7 +879,7 @@ vim src/llm_foundry/config/model_config.py
 vim tests/test_training.py
 
 # 4. 更新文档
-vim docs/zh/training.md
+vim training.md
 ```
 
 ### 10.4 创建新示例
@@ -899,13 +899,13 @@ vim examples/README.md
 
 ```bash
 # 1. 创建/编辑文档
-vim docs/zh/new_topic.md
+vim new_topic.md
 
 # 2. 更新文档索引
 vim docs/README.md
 
 # 3. 检查 Markdown 格式
-markdownlint docs/zh/new_topic.md
+markdownlint new_topic.md
 
 # 4. 预览(可选)
 # 使用 Markdown 预览工具
@@ -941,9 +941,9 @@ open htmlcov/index.html
 5. **生产就绪**: 性能优化、分布式训练、模型服务
 
 **下一步**:
-- 阅读 `docs/zh/quickstart.md` 快速上手
+- 阅读 `quickstart.md` 快速上手
 - 查看 `examples/` 了解使用方式
-- 浏览 `docs/zh/architecture.md` 深入理解架构
+- 浏览 `architecture.md` 深入理解架构
 
 **保持联系**:
 - 问题反馈: GitHub Issues

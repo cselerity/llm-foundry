@@ -51,7 +51,7 @@ src/llm_foundry/           tutorials/
 | [**train_m4pro.py**](train_m4pro.py) | Apple M4 Pro 优化训练 | Apple Silicon (32GB) |
 
 **详细配置指南:**
-- RTX 5060 → [完整指南](../docs/zh/hardware/rtx-5060.md)
+- RTX 5060 → [完整指南](../docs/hardware-rtx5060.md)
 - Apple Silicon → 指南 (待创建)
 
 ---
@@ -76,7 +76,7 @@ python generate.py   # 生成文本
 python train_rtx5060.py  # 70M 参数, 30-40 分钟
 ```
 
-**配置详情**: [RTX 5060 指南](../docs/zh/hardware/rtx-5060.md)
+**配置详情**: [RTX 5060 指南](../docs/hardware-rtx5060.md)
 
 ---
 
@@ -134,7 +134,7 @@ python train_m4pro.py    # 68M 参数, 40-60 分钟
 - Transformer Block 结构
 - 因果自注意力机制
 
-**深入学习** → [架构组件详解](../docs/zh/architecture/components.md)
+**深入学习** → [架构组件详解](../docs/architecture-components.md)
 
 ---
 
@@ -225,9 +225,8 @@ python train.py
 ```
 
 **详细配置指南**:
-- [硬件概览](../docs/zh/hardware/README.md) - 硬件选择指南
-- [RTX 5060 指南](../docs/zh/hardware/rtx-5060.md) - 8GB GPU 优化
-- [配置速查表](../docs/zh/hardware/quick-reference.md) - 快速参考
+- [RTX 5060 指南](../docs/hardware-rtx5060.md) - 8GB GPU 优化
+- [配置速查表](../docs/hardware-config.md) - 快速参考
 
 ---
 
@@ -237,9 +236,9 @@ python train.py
 
 ### 架构深入
 
-→ **[架构文档](../docs/zh/architecture/)**
-   - [核心组件](../docs/zh/architecture/components.md) - RMSNorm, RoPE, GQA, SwiGLU
-   - [训练系统](../docs/zh/architecture/training-system.md) - LLM 训练完整知识体系
+→ **[架构文档](../docs/)**
+   - [核心组件](../docs/architecture-components.md) - RMSNorm, RoPE, GQA, SwiGLU
+   - [训练系统](../docs/architecture-training.md) - LLM 训练完整知识体系
 
 **训练系统文档包含**:
 - 训练全流程 (6 阶段)
@@ -254,8 +253,8 @@ python train.py
 **完成教程学习后**:
 
 1. **系统学习** → [学习路径](../LEARNING_PATH.md) - 结构化学习
-2. **深入架构** → [架构文档](../docs/zh/architecture/) - 技术深入
-3. **硬件优化** → [硬件指南](../docs/zh/hardware/) - 平台特定
+2. **深入架构** → [架构文档](../docs/) - 技术深入
+3. **硬件优化** → [硬件配置](../docs/) - 平台特定
 4. **生产部署** → [生产文档](../docs/zh/production/) - 企业级
 5. **贡献代码** → [开发者指南](../AGENTS.md) - 参与开发
 
