@@ -8,8 +8,6 @@
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
 
-[English](#) | [中文](#)
-
 ---
 
 ## 🎯 这是什么？
@@ -23,141 +21,45 @@ LLM Foundry 是一个**教育优先、生产就绪**的语言模型实现，采�
 
 ---
 
-## 🚀 快速导航
-
-### 首次使用
-
-**5 分钟快速体验** → [GETTING_STARTED.md](GETTING_STARTED.md)
-   - 安装 → 训练第一个模型 → 生成文本
-
-**10-15 小时系统学习** → [LEARNING_PATH.md](LEARNING_PATH.md)
-   - 5 阶段结构化路径
-   - 从零理解 Transformer
-   - 掌握核心技术
-
----
-
-### 实践者
-
-**针对您的硬件优化** → [硬件配置](docs/)
-   - [RTX 5060 指南](docs/hardware-rtx5060.md) - 8GB GPU (70M 参数, 30-40 分钟)
-   - [配置速查表](docs/hardware-config.md) - 快速参考
-
----
-
-### 开发者 / 研究者
-
-**深入架构** → [架构文档](docs/)
-   - [核心组件](docs/architecture-components.md) - RMSNorm, RoPE, GQA, SwiGLU
-   - [训练系统](docs/architecture-training.md) - LLM 训练完整知识
-
-**贡献代码** → [AGENTS.md](AGENTS.md)
-   - AI Agent 协作指南
-   - 开发工作流
-   - 贡献规范
-
----
-
-## ⚡ 一分钟体验
+## 🚀 快速开始
 
 ```bash
-# 1. 安装
+# 安装
 git clone https://github.com/your-org/llm-foundry.git
 cd llm-foundry
 pip install -e .
 
-# 2. 训练
+# 训练
 cd tutorials
 python train.py      # 训练模型 (~30 秒)
 
-# 3. 生成
+# 生成
 python generate.py   # 生成文本
 ```
 
-**详细步骤** → [GETTING_STARTED.md](GETTING_STARTED.md)
+**详细指南** → [USER_GUIDE.md](USER_GUIDE.md)
 
 ---
 
-## 📚 文档
+## 📚 文档导航
 
-**主导航** → [docs/README.md](docs/README.md)
-   - 按用途导航 ("我想...")
-   - 按角色导航 (初学者、实践者、开发者)
-   - 完整文档索引
+### 用户指南
+- **[用户指南](USER_GUIDE.md)** - 从快速上手到深入掌握的完整指南
+  - 快速上手 (5-10 分钟)
+  - 系统学习 (10-15 小时)
+  - 深入理解
+  - 实践应用
 
-**核心文档**:
-- [📖 快速开始](GETTING_STARTED.md) - 5-10 分钟上手
-- [🎯 学习路径](LEARNING_PATH.md) - 系统学习指南
-- [🏗️ 架构详解](docs/) - 深入理解
-- [💻 硬件配置](docs/) - 平台优化
-- [🤖 AI Agent](AGENTS.md) - 开发协作
+### 架构文档
+- **[核心组件](docs/architecture-components.md)** - RMSNorm, RoPE, GQA, SwiGLU 详解
+- **[训练系统](docs/architecture-training.md)** - LLM 训练完整知识体系
 
----
+### 硬件配置
+- **[硬件配置](docs/hardware-config.md)** - 针对不同硬件的优化配置
+- **[RTX 5060 指南](docs/hardware-rtx5060.md)** - 8GB GPU 优化指南
 
-## 📖 文档阅读顺序
-
-### 🎯 初学者路径 (首次接触 LLM)
-
-**总时间**: 3-5 小时
-
-1. **快速开始** (10 分钟)
-   - [GETTING_STARTED.md](GETTING_STARTED.md) - 安装并训练第一个模型
-
-2. **理解核心组件** (1-2 小时)
-   - [核心组件详解](docs/architecture-components.md) - RMSNorm, RoPE, GQA, SwiGLU
-
-3. **系统学习** (2-3 小时)
-   - [LEARNING_PATH.md](LEARNING_PATH.md) - 第 1-2 阶段
-
----
-
-### 💻 实践者路径 (想快速训练模型)
-
-**总时间**: 30-60 分钟
-
-1. **快速开始** (10 分钟)
-   - [GETTING_STARTED.md](GETTING_STARTED.md)
-
-2. **选择硬件配置** (10 分钟)
-   - [RTX 5060 指南](docs/hardware-rtx5060.md)
-   - [配置速查表](docs/hardware-config.md)
-
-3. **开始训练** (10-40 分钟)
-   - 运行 `tutorials/train_rtx5060.py` 或 `train_m4pro.py`
-
----
-
-### 🔬 研究者/开发者路径 (深入理解)
-
-**总时间**: 10-15 小时
-
-1. **快速开始** (10 分钟)
-   - [GETTING_STARTED.md](GETTING_STARTED.md)
-
-2. **深入架构** (3-5 小时)
-   - [核心组件详解](docs/architecture-components.md) - 2 小时
-   - [训练系统完整知识](docs/architecture-training.md) - 2-3 小时
-
-3. **系统学习** (5-7 小时)
-   - [LEARNING_PATH.md](LEARNING_PATH.md) - 完整 5 阶段
-
-4. **生产部署** (2-3 小时)
-   - 分布式训练 (待创建)
-   - 混合精度训练 (待创建)
-
----
-
-### 🎓 架构深入阅读顺序
-
-如果您想专注理解架构，推荐按以下顺序阅读:
-
-1. **[核心组件](docs/architecture-components.md)** (1-2 小时)
-   - RMSNorm, RoPE, GQA, SwiGLU 的数学原理和实现
-
-2. **[训练系统](docs/architecture-training.md)** (2-3 小时)
-   - LLM 训练完整流程、业界最佳实践、优化技巧
-
-**快速了解** (~40 分钟): 只读 [核心组件](docs/architecture-components.md) 的 RMSNorm, RoPE, GQA 三节
+### 开发者
+- **[贡献指南](CONTRIBUTING.md)** - 开发工作流、代码规范、提交指南
 
 ---
 
@@ -175,11 +77,9 @@ llm-foundry/
 │   ├── train.py          # 训练流程
 │   └── ...
 ├── docs/                 # 文档
-│   └── zh/               # 中文文档
-│       ├── architecture/ # 架构详解
-│       ├── guides/       # 实用指南
-│       ├── hardware/     # 硬件指南
-│       └── production/   # 生产部署
+│   ├── architecture/     # 架构详解
+│   ├── guides/          # 实用指南
+│   └── hardware/        # 硬件指南
 ├── examples/             # 使用示例
 └── tests/                # 测试
 ```
@@ -243,7 +143,6 @@ llm-foundry/
 - `01_basic_training.py` - 基础训练
 - `02_custom_data.py` - 自定义数据集
 - `03_generation_sampling.py` - 采样策略
-- `04_fine_tuning.py` - 模型微调
 
 ---
 
@@ -257,7 +156,7 @@ llm-foundry/
 4. 推送到分支 (`git push origin feature/amazing-feature`)
 5. 开启 Pull Request
 
-详见 [AGENTS.md](AGENTS.md) 了解开发工作流。
+详见 [CONTRIBUTING.md](CONTRIBUTING.md) 了解开发工作流。
 
 ---
 
