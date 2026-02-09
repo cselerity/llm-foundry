@@ -32,8 +32,7 @@ python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 
 # 3. 安装依赖
-pip install -e .  # 开发模式安装
-pip install -r requirements-dev.txt  # 开发工具
+pip install -e .[dev]  # 安装开发依赖
 
 # 4. 验证安装
 python -c "import llm_foundry; print(llm_foundry.__version__)"
@@ -563,9 +562,7 @@ llm-foundry/
 │
 ├── README.md                 # 项目简介
 ├── LICENSE                   # MIT 许可证
-├── setup.py                  # 包安装
-├── requirements.txt          # 依赖
-├── requirements-dev.txt      # 开发依赖
+├── pyproject.toml           # 项目配置
 └── CONTRIBUTING.md           # 本文档
 ```
 
