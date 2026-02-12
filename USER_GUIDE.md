@@ -24,6 +24,39 @@
 - **RAM** 至少 4GB
 - **GPU** (可选) NVIDIA GPU 用于加速训练
 
+### 硬件检测
+
+在安装前，先检测你的环境：
+
+```bash
+# 检测 PyTorch 和加速引擎
+python -c "import torch; print('PyTorch:', torch.__version__); print('CUDA:', torch.cuda.is_available()); mps = torch.backends.mps.is_available() if hasattr(torch.backends, 'mps') else False; print('MPS:', mps); device = 'cuda' if torch.cuda.is_available() else 'mps' if mps else 'cpu'; print('Device:', device)"
+```
+
+**预期输出（NVIDIA GPU 环境 - Windows/Linux）**:
+```
+PyTorch: 2.10.0+cu118
+CUDA: True
+MPS: False
+Device: cuda
+```
+
+**预期输出（Apple Silicon 环境 - macOS）**:
+```
+PyTorch: 2.10.0
+CUDA: False
+MPS: True
+Device: mps
+```
+
+**预期输出（CPU 环境）**:
+```
+PyTorch: 2.10.0+cpu
+CUDA: False
+MPS: False
+Device: cpu
+```
+
 ### 安装
 
 ```bash
@@ -31,28 +64,90 @@
 git clone https://github.com/your-org/llm-foundry.git
 cd llm-foundry
 
-# 安装依赖
+# 基础安装（CPU）
 pip install -e .
+
+# 或安装开发依赖
+pip install -e .[dev]
 
 # 验证安装
 python -c "import llm_foundry; print('OK')"
+```
+
+### GPU 用户：安装加速版本 PyTorch
+
+如果你有 NVIDIA GPU 或 Apple Silicon，需要安装对应版本的 PyTorch：
+
+#### NVIDIA GPU（Windows/Linux）
+
+```bash
+# 1. 卸载 CPU 版本
+pip uninstall torch -y
+
+# 2. 安装 CUDA 版本（选择适合你的版本）
+# CUDA 11.8（推荐，兼容性最好）
+pip install torch --index-url https://download.pytorch.org/whl/cu118
+
+# 或 CUDA 12.1（较新版本）
+pip install torch --index-url https://download.pytorch.org/whl/cu121
+
+# 对于 RTX 5060 等需要 sm_120 计算能力的 50 系列显卡
+# 需要安装 PyTorch Nightly 预览版（支持 CUDA 12.8）
+pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128
+```
+
+**验证安装**:
+```bash
+python -c "import torch; print('CUDA:', torch.cuda.is_available()); print('GPU:', torch.cuda.get_device_name(0))"
+```
+
+**预期输出**:
+```
+CUDA: True
+GPU: NVIDIA GeForce RTX 5060
+```
+
+#### Apple Silicon（macOS）
+
+macOS 使用 **MPS**（Metal Performance Shaders）加速，无需额外安装：
+
+```bash
+# 基础安装即可
+pip install -e .
+
+# 验证 MPS
+python -c "import torch; print('MPS:', torch.backends.mps.is_available())"
+```
+
+**预期输出**:
+```
+MPS: True
 ```
 
 ### 训练第一个模型
 
 ```bash
 cd tutorials
-python train.py      # 训练模型 (~30 秒)
+python train.py      # 训练模型 (~30 秒 GPU，~10 分钟 CPU)
 python generate.py   # 生成文本
 ```
 
-**预期输出**:
+**预期输出（GPU）**:
 ```
 使用设备: cuda
 模型参数量: 2.08M
 step 0: train loss 9.1234, val loss 9.2345
 step 50: train loss 5.6789, val loss 5.7890
 训练完成，耗时 32.45s
+```
+
+**预期输出（CPU）**:
+```
+使用设备: cpu
+模型参数量: 2.08M
+step 0: train loss 9.1234, val loss 9.2345
+step 50: train loss 5.6789, val loss 5.7890
+训练完成，耗时 645.12s (约 10 分钟)
 ```
 
 ### 两种使用模式
@@ -335,15 +430,62 @@ from tutorials.config import (
 
 ## 故障排除
 
-### 问题 1: 训练太慢
+### 问题 1: 训练太慢（CPU 模式）
+
+**症状**: 输出显示 `使用设备: cpu`，训练非常慢
 
 **解决方案**:
-1. 检查 GPU: `torch.cuda.is_available()`
-2. 减小模型: 降低 `dim` 或 `n_layers`
-3. 减小批次: 降低 `batch_size`
-4. 使用混合精度: 参考 [训练系统](docs/architecture-training.md)
+1. 检查 GPU 是否可用：
+   ```bash
+   python -c "import torch; print('CUDA:', torch.cuda.is_available())"
+   ```
+2. 如果输出 `CUDA: False`，说明使用的是 CPU 版本 PyTorch
+3. 按照 [GPU 用户安装指南](#gpu-用户安装-cuda-版本-pytorch) 重新安装 CUDA 版本
 
-### 问题 2: CUDA Out of Memory
+### 问题 2: CUDA 不可用
+
+**症状**: `torch.cuda.is_available()` 返回 `False`
+
+**解决方案**:
+1. 确认有 NVIDIA GPU：`nvidia-smi`
+2. 卸载 CPU 版本 PyTorch：
+   ```bash
+   pip uninstall torch -y
+   ```
+3. 安装 CUDA 版本：
+   ```bash
+   # CUDA 11.8（推荐）
+   pip install torch --index-url https://download.pytorch.org/whl/cu118
+   ```
+4. 或使用 conda：
+   ```bash
+   conda install pytorch cuda -c pytorch
+   ```
+
+### 问题 3: CUDA 内核不可用（no kernel image error）
+
+**症状**: 运行时出现 `RuntimeError: CUDA error: no kernel image is available for execution on the device`
+- 通常发生在 RTX 5060 等 NVIDIA 50 系列显卡上
+- PyTorch 稳定版不支持 sm_120 计算能力
+
+**解决方案**:
+1. 检查 GPU 计算能力：
+   ```bash
+   python -c "import torch; print('Compute capability:', torch.cuda.get_device_capability(0) if torch.cuda.is_available() else 'N/A')"
+   ```
+2. 如果计算能力是 `(12, 0)` (sm_120)，需要安装 PyTorch Nightly 预览版：
+   ```bash
+   pip uninstall torch torchvision torchaudio -y
+   pip install --pre torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu128
+   ```
+3. 验证安装：
+   ```bash
+   python -c "import torch; print('PyTorch:', torch.__version__); print('CUDA:', torch.version.cuda if torch.cuda.is_available() else 'N/A')"
+   ```
+
+### 问题 4: CUDA Out of Memory
+
+**症状**: `RuntimeError: CUDA out of memory`
 
 **解决方案**:
 ```python
@@ -358,7 +500,7 @@ model_cfg.dim = 256
 model_cfg.n_layers = 4
 ```
 
-### 问题 3: 生成质量不好
+### 问题 5: 生成质量不好
 
 **解决方案**:
 1. 增加训练步数: `train_cfg.max_iters = 5000`
@@ -370,7 +512,7 @@ model_cfg.n_layers = 4
    top_p = 0.9         # 核采样
    ```
 
-### 问题 4: 找不到模块
+### 问题 6: 找不到模块
 
 **解决方案**:
 ```bash

@@ -5,3 +5,11 @@ __pycache__
 input_cn.txt
 input_en.txt
 .1code
+
+# Python build artifacts
+*.egg-info
+*.egg
+build/
+dist/
+*.py[cod]
+*$py.class
