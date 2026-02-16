@@ -4,5 +4,12 @@
 """
 
 from .model_config import ModelConfig, TrainConfig
+from .loader import load_config, save_config, get_preset_config
 
-__all__ = ['ModelConfig', 'TrainConfig']
+__all__ = [
+    'ModelConfig', 
+    'TrainConfig',
+    'load_config',
+    'save_config',
+    'get_preset_config',
+]

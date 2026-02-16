@@ -1,7 +1,6 @@
 tokenizer.model
 minillm.pt
 tokenizer.vocab
-__pycache__
 input_cn.txt
 input_en.txt
 .1code
@@ -13,3 +12,48 @@ build/
 dist/
 *.py[cod]
 *$py.class
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.coverage.*
+.cache/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# Code formatting and linting
+.black_cache/
+.isort.cfg
+.flake8
+.ruff_cache/
+
+# Pre-commit
+.pre-commit-config.yaml.lock
+
+# IDEs and editors
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.#*
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
